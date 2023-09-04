@@ -1,3 +1,4 @@
+import json
 import re
 import requests
 import sys
@@ -20,9 +21,9 @@ if (response.status_code == 200):
 
 
     # Create dictionary to hold nouns
-    rzeczownik_json = {}
-    rzeczownik_json['singular'] = {}
-    rzeczownik_json['plural'] = {}
+    rzeczownik_dict = {}
+    rzeczownik_dict['singular'] = {}
+    rzeczownik_dict['plural'] = {}
 
     odmiana = soup.table
     odmiana = soup.find_all("table", class_="odmiana")[0]
@@ -30,12 +31,25 @@ if (response.status_code == 200):
         grammar_case = row.a.get('title')
         singular = (row.find_all('td')[1].string)
         plural = (row.find_all('td')[2].string)
-        rzeczownik_json['singular'][grammar_case] = singular
-        rzeczownik_json['plural'][grammar_case] = plural
+        rzeczownik_dict['singular'][grammar_case] = singular
+        rzeczownik_dict['plural'][grammar_case] = plural
 
     meaning = soup.find_all(string=re.compile("angielski"))[0].parent.a.text
-    rzeczownik_json['meaning'] = meaning 
-    print(rzeczownik_json)
+    rzeczownik_dict['meaning'] = meaning 
+    print(rzeczownik_dict)
 else:
     print("Opps! Something went wrong...we did not get back a 200")
+
+
+rzeczownik_json = json.dumps(rzeczownik_dict)
+
+# temporary flat file for database; TODO: convert to SQL
+with open("temp_db", "r+") as file:
+    db = file.read()
+    db_py = json.loads(db)
+    file.seek(0)
+    file.truncate()
+    db_py.append(rzeczownik_json)
+    file.write(json.dumps(db_py))
+
 

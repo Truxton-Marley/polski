@@ -1,16 +1,18 @@
 import json
+from pprint import pprint
 
 with open("temp_db") as file:
     words = json.load(file)
 
 question = "Nie ma ___"
 
-for word in words:
-    word = json.loads(word)
-    print(word["singular"]["mianownik"])
+pprint(words)
+
+for word in words.keys():
+    print(words[word]["singular"]["mianownik"])
     print(question)
     response = input()
-    answer = word["singular"]["dopełniacz"]
+    answer = words[word]["singular"]["dopełniacz"]
     if response == answer:
         print("\nDobrze!!!\n")
     else:

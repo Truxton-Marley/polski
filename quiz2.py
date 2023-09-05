@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import time
 from pprint import pprint
 
 with open("temp_db") as file:
@@ -10,6 +11,7 @@ questions_genitive = [
     "Nie ma ___",
     "Jakie jest pani zdanie na temat ___",
     "brakuje mi ___",
+    "Ona bardzo boi się ___",
     ]
 
 questions_locative = [
@@ -38,6 +40,11 @@ questions_vocative = [
 
 pprint(words)
 
+def ask_question(question):
+    print(question)
+    response = input()
+    return response
+
 def ask_questions(questions, przypadek, number="singular"):
     print("################################################################################")
     print(f"                           {przypadek}   :   {number}                     ")
@@ -46,20 +53,24 @@ def ask_questions(questions, przypadek, number="singular"):
     all_words = [word for word in words.keys()]
     quiz_words = [random.choice(all_words) for i in range(5)]
     for word in quiz_words:
-        print(words[word][number]["mianownik"])
         question = random.choice(questions)
-        print(question)
-        response = input()
         answer = words[word][number][przypadek]
-        if response == answer:
-            print("\nDobrze!!!\n")
-        else:
-            print(response, answer)
+        response = ""
+        while response != answer:
+            print(words[word][number]["mianownik"])
+            response = ask_question(question)
+            if response == answer:
+                print("\nDobrze!!!\n")
+            else:
+                print(response, answer)
+    time.sleep(2)
     os.system("clear")
 
+ask_questions(questions_locative, "miejscownik", number="plural")
 ask_questions(questions_locative, "miejscownik")
-ask_questions(questions_genitive, "dopełniacz")
-ask_questions(questions_instrumental, "narzędnik")
-ask_questions(questions_accusative, "biernik")
-ask_questions(questions_vocative, "wołacz")
+ask_questions(questions_locative, "miejscownik", number="plural")
+#ask_questions(questions_genitive, "dopełniacz")
+#ask_questions(questions_instrumental, "narzędnik")
+#ask_questions(questions_accusative, "biernik")
+#ask_questions(questions_vocative, "wołacz")
 

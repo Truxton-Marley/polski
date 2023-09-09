@@ -10,13 +10,22 @@ with open("noun_temp_db") as file:
 with open("adjectives_temp_db") as file:
     adjectives = json.load(file)
 
-gender_mapping = {
+gender_mapping_singular = {
     "nijaki": "n",
     "żeński": "f",
     "męskorzeczowy": "m",
     # ma = masculine alive, maybe not the best choice of wording...
     "męskoosobowy": "ma",
     "męskozwierzęcy": "ma",
+}
+
+gender_mapping_plural = {
+    "nijaki": "nm",
+    "żeński": "nm",
+    "męskorzeczowy": "nm",
+    # ma = masculine alive, maybe not the best choice of wording...
+    "męskoosobowy": "m",
+    "męskozwierzęcy": "nm",
 }
 
 questions_genitive = [
@@ -60,7 +69,7 @@ pprint(adjectives)
 
 def ask_question(question):
     print(question)
-    response = input()
+    response = input("\n")
     return response
 
 def ask_questions(questions, przypadek, number="singular"):
@@ -75,17 +84,22 @@ def ask_questions(questions, przypadek, number="singular"):
     for word, adjective in zip(quiz_nouns, quiz_adjectives):
         question = random.choice(questions)
         gender = nouns[word]["gender"]
-        answer = adjectives[adjective][number][przypadek][gender_mapping[gender]]
+        if number == "singular":
+            answer = adjectives[adjective][number][przypadek][gender_mapping_singular[gender]]
+            adjective_nomnitive = adjectives[adjective][number]["mianownik"][gender_mapping_singular[gender]]
+        elif number == "plural":
+            answer = adjectives[adjective][number][przypadek][gender_mapping_plural[gender]]
+            adjective_nomnitive = adjectives[adjective][number]["mianownik"][gender_mapping_plural[gender]]
         answer += " "
         answer += nouns[word][number][przypadek]
         response = ""
         while response != answer:
-            print(f'{adjectives[adjective][number]["mianownik"]["m"]} {nouns[word][number]["mianownik"]}')
+            print(f'{adjective_nomnitive} {nouns[word][number]["mianownik"]}')
             response = ask_question(question)
             if response == answer:
                 print("\nDobrze!!!\n")
             else:
-                print(response, answer)
+                print(f"Twoja odpowiedz: {response}\nCorrect answer: {answer}\n\n")
     time.sleep(2)
     os.system("clear")
 
@@ -98,6 +112,7 @@ question_sets = [
     {"questions": questions_vocative, "przypadek": "wołacz", "number":"singular"},
 ]
 
+ask_questions(questions_locative, "miejscownik", number="plural")
 ask_questions(**random.choice(question_sets))
 ask_questions(questions_genitive, "dopełniacz")
 

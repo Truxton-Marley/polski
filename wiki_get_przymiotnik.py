@@ -45,7 +45,6 @@ if (response.status_code == 200):
     # Skip table headers and comparatives [2:9]
     for row in odmiana.find_all('tr')[2:9]:
         grammar_case = row.a.get('title')
-        print(grammar_case)
         if grammar_case == 'mianownik' or grammar_case == 'wołacz':
             singular_m = (row.find_all('td')[1].string)
             przymiotnik_dict[query]['singular'][grammar_case]['ma'] = singular_m
@@ -83,14 +82,14 @@ else:
 
 przymiotnik_json = json.dumps(przymiotnik_dict)
 
- temporary flat file for database; TODO: convert to SQL
+# temporary flat file for database; TODO: convert to SQL
 with open("przymiotnik_temp_db", "r+") as file:
     db = file.read()
     db_py = json.loads(db)
     print(db_py)
     file.seek(0)
     file.truncate()
-    db_py[query] = rzeczownik_dict[query]
+    db_py[query] = przymiotnik_dict[query]
     file.write(json.dumps(db_py))
 
 

@@ -48,6 +48,7 @@ if (response.status_code == 200):
         print(grammar_case)
         if grammar_case == 'mianownik' or grammar_case == 'wołacz':
             singular_m = (row.find_all('td')[1].string)
+            przymiotnik_dict[query]['singular'][grammar_case]['ma'] = singular_m
             singular_f = (row.find_all('td')[2].string)
             singular_n = (row.find_all('td')[3].string)
             plural_m = (row.find_all('td')[4].string)
@@ -62,6 +63,7 @@ if (response.status_code == 200):
             plural_nm = (row.find_all('td')[6].string)
         else:
             singular_m = (row.find_all('td')[1].string)
+            przymiotnik_dict[query]['singular'][grammar_case]['ma'] = singular_m
             singular_f = (row.find_all('td')[2].string)
             singular_n = (row.find_all('td')[3].string)
             plural_m = (row.find_all('td')[4].string)
@@ -79,16 +81,16 @@ else:
     print("Opps! Something went wrong...we did not get back a 200")
 
 
-#przymiotnik_json = json.dumps(przymiotnik_dict)
+przymiotnik_json = json.dumps(przymiotnik_dict)
 
-# temporary flat file for database; TODO: convert to SQL
-#with open("przymiotnik_temp_db", "r+") as file:
-#    db = file.read()
-#    db_py = json.loads(db)
-#    print(db_py)
-#    file.seek(0)
-#    file.truncate()
-#    db_py[query] = rzeczownik_dict[query]
-#    file.write(json.dumps(db_py))
+ temporary flat file for database; TODO: convert to SQL
+with open("przymiotnik_temp_db", "r+") as file:
+    db = file.read()
+    db_py = json.loads(db)
+    print(db_py)
+    file.seek(0)
+    file.truncate()
+    db_py[query] = rzeczownik_dict[query]
+    file.write(json.dumps(db_py))
 
 

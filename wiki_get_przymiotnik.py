@@ -83,7 +83,7 @@ else:
 przymiotnik_json = json.dumps(przymiotnik_dict)
 
 # temporary flat file for database; TODO: convert to SQL
-with open("przymiotnik_temp_db", "r+") as file:
+with open("adjectives_temp_db", "r+") as file:
     db = file.read()
     db_py = json.loads(db)
     print(db_py)

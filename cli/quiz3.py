@@ -20,10 +20,11 @@ gender_mapping_singular = {
 }
 
 gender_mapping_plural = {
+    # nm: non-living masculine, m: masculine :
+    # should really be mp: masculine persion, o: other...potential todo at some point
     "nijaki": "nm",
     "żeński": "nm",
     "męskorzeczowy": "nm",
-    # ma = masculine alive, maybe not the best choice of wording...
     "męskoosobowy": "m",
     "męskozwierzęcy": "nm",
 }
@@ -104,17 +105,24 @@ def ask_questions(questions, przypadek, number="singular"):
     os.system("clear")
 
 question_sets = [
+    # Singular
     {"questions": questions_genitive, "przypadek": "dopełniacz", "number":"singular"},
     {"questions": questions_dative, "przypadek": "celownik", "number":"singular"},
     {"questions": questions_accusative, "przypadek": "biernik", "number":"singular"},
     {"questions": questions_instrumental, "przypadek": "narzędnik", "number":"singular"},
     {"questions": questions_locative, "przypadek": "miejscownik", "number":"singular"},
     {"questions": questions_vocative, "przypadek": "wołacz", "number":"singular"},
+    # Plural
+    {"questions": questions_genitive, "przypadek": "dopełniacz", "number":"plural"},
+    {"questions": questions_dative, "przypadek": "celownik", "number":"plural"},
+    {"questions": questions_accusative, "przypadek": "biernik", "number":"plural"},
 ]
 
-ask_questions(questions_locative, "miejscownik", number="plural")
 ask_questions(**random.choice(question_sets))
 ask_questions(questions_genitive, "dopełniacz")
+ask_questions(questions_genitive, "dopełniacz", number="plural")
+ask_questions(questions_locative, "miejscownik")
+ask_questions(questions_locative, "miejscownik", number="plural")
 
 #for question in question_sets:
 #    ask_questions(**question)

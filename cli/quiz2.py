@@ -4,7 +4,7 @@ import random
 import time
 from pprint import pprint
 
-with open("temp_db") as file:
+with open("noun_temp_db") as file:
     words = json.load(file)
 
 questions_genitive = [
@@ -38,6 +38,11 @@ questions_vocative = [
     "O, ___!",
     ]
 
+praise = [
+    "Dobrze!!!",
+    "Ile cię trzeba cenić, ten tylko się dowie, kto cię stracił.",
+]
+
 pprint(words)
 
 def ask_question(question):
@@ -51,7 +56,8 @@ def ask_questions(questions, przypadek, number="singular"):
     print("################################################################################")
     
     all_words = [word for word in words.keys()]
-    quiz_words = [random.choice(all_words) for i in range(5)]
+    print(all_words)
+    quiz_words = [random.choice(all_words) for i in range(10)]
     for word in quiz_words:
         question = random.choice(questions)
         answer = words[word][number][przypadek]
@@ -66,11 +72,27 @@ def ask_questions(questions, przypadek, number="singular"):
     time.sleep(2)
     os.system("clear")
 
-ask_questions(questions_locative, "miejscownik", number="plural")
-ask_questions(questions_locative, "miejscownik")
-ask_questions(questions_locative, "miejscownik", number="plural")
-#ask_questions(questions_genitive, "dopełniacz")
+question_sets = [
+    {"questions": questions_genitive, "przypadek": "dopełniacz", "number":"singular"},
+    {"questions": questions_dative, "przypadek": "celownik", "number":"singular"},
+    {"questions": questions_accusative, "przypadek": "biernik", "number":"singular"},
+    {"questions": questions_instrumental, "przypadek": "narzędnik", "number":"singular"},
+    {"questions": questions_locative, "przypadek": "miejscownik", "number":"singular"},
+    {"questions": questions_vocative, "przypadek": "wołacz", "number":"singular"},
+]
+
+ask_questions(questions_genitive, "dopełniacz")
+ask_questions(questions_genitive, "dopełniacz")
+#ask_questions(**random.choice(question_sets))
+
+#for question in question_sets:
+#    ask_questions(**question)
+
+
 #ask_questions(questions_instrumental, "narzędnik")
+#ask_questions(questions_locative, "miejscownik", number="plural")
+#ask_questions(questions_locative, "miejscownik")
+ask_questions(questions_genitive, "dopełniacz", number="plural")
 #ask_questions(questions_accusative, "biernik")
 #ask_questions(questions_vocative, "wołacz")
 

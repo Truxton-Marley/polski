@@ -25,12 +25,15 @@ SECRET_KEY = 'django-insecure-r4m0^7xxizeyqa+z!mx#^=v!_wrgu7+3e4c42(+!-(%70471=$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "143.42.213.191",
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'case_quizzes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

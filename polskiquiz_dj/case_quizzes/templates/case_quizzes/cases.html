@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="{% static 'case_quizzes/styles.css' %}" rel="stylesheet">
+        <title>Polish Cases</title>
+        <script>
+            var adjectives = JSON.parse('{{ adjectives|safe }}');
+            var js_slownik = JSON.parse('{{ js_slownik|safe }}');
+        </script>
+        <script src="{% static 'case_quizzes/cases.js' %}"></script>
+    </head>
+    <body>
+        <h1>Jinja2 Words:</h1>
+
+        <p>{{ slownik }}</p>
+        <p>{{ slownik.nadwaga }}</p>
+
+        {% for key, value in slownik.items %}
+            <ul>
+                <li>{{ key }}: {{ value }}</li>
+            </ul>
+        {% endfor %}
+
+        <h1>JS Words:</h1>
+        <ul id="slownik">
+        </ul>
+
+
+    </body>
+</html>

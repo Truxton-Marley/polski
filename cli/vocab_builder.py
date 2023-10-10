@@ -1,13 +1,20 @@
 import random
-from slowa_vocab_builder import vocab, new_vocab
+from colorama import Fore, init
+from slowa_vocab_builder import vocab, new_vocab, brand_new_vocab
+from zacheta import zacheta
 
-
-
-#####################################################################
-
+init(autoreset=True)
 
 print(vocab)
 print()
+
+#####################################################################
+
+def praise(zecheta):
+    """Return encouragement or famous Polish quotes. Also the Lord's
+    Prayer as you will hear this in Poland at weddings and funerals,
+    so good to know."""
+    print(Fore.GREEN + f"\n{random.choice(zacheta)}\n")
 
 #####################################################################
 
@@ -31,28 +38,34 @@ def multiple_choice(vocab):
         while mc.get(response.upper()) != answer:
             response = input("Nie całkowice...\n> ")
         else:
-            print("Dobrze!!!\n")
+            praise(zacheta)
     except:
         print("You entered invalid input! Enter A, B, C, D, or E!")
 
 #####################################################################
 
+def type_in_questions(vocab, number=15):
+    keys = [random.choice(list(vocab.keys())) for i in range(number)]
+    for key in keys[:8]:
+        print(f"Co to znaczy '{key}' po polsku?")
+        response = input()
+        while response != vocab[key]:
+            print(vocab[key], "\n\n")
+            response = input()
+        praise(zacheta)
+
+#####################################################################
+
+for i in range(25):
+    multiple_choice(brand_new_vocab)
+
 for i in range(15):
     multiple_choice(new_vocab)
-    #multiple_choice(new_vocab, new_all_keys)
+type_in_questions(new_vocab, number=5)
 
 for i in range(25):
     multiple_choice(vocab)
-    #multiple_choice(vocab, all_keys)
+type_in_questions(vocab)
 
-# Type in response:
-keys = [random.choice(list(vocab.keys())) for i in range(18)]
-for key in keys[:8]:
-    print(f"Co to znaczy '{key}' po polsku?")
-    response = input()
-    while response != vocab[key]:
-        print(vocab[key], "\n\n")
-        response = input()
-    print("\nDobrze!\n")
 
  

@@ -58,6 +58,7 @@ def type_in_questions(vocab, number=15):
 
 for i in range(25):
     multiple_choice(brand_new_vocab)
+type_in_questions(brand_new_vocab, number=5)
 
 for i in range(15):
     multiple_choice(new_vocab)
